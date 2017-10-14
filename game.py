@@ -248,12 +248,13 @@ def execute_take(item_id):# Here i have a problem, ask in lab
     global total_mass
     for item in current_room["items"]:
         if item["id"] == item_id and item["mass"] + total_mass < 2100:
+            total_mass = total_mass + item["mass"]
             current_room["items"].remove(item)
             inventory.append(item)
         else:
                 print("You can't take this item as you carry to much items. You can drop items.")
-                print(total_mass)
-                break
+                #print(total_mass)
+        break
 
     return ("You cannot take that")
 
@@ -266,10 +267,11 @@ def execute_drop(item_id):
     global total_mass
     for item in inventory:
         if item["id"] == item_id:
+            total_mass = total_mass - item["mass"]
+            #print(total_mass)
             inventory.remove(item)
             current_room["items"].append(item)
-            total_mass = total_mass - item["mass"]
-            print(total_mass)
+
             return
 
     print("You cannot drop that.")
@@ -351,6 +353,9 @@ def main():
     # Main game loop
     while True:
         # Display game status (room description, inventory etc.)
+        if current_room == rooms["Tutor"] and current_room["items"]==[item_pen]:
+
+            break
         print_room(current_room)
         print_inventory_items(inventory)
 
@@ -359,6 +364,8 @@ def main():
 
         # Execute the player's command
         execute_command(command)
+    print("you won!")
+
 
 
 # Are we being run as a script? If so, run main().
